@@ -18984,10 +18984,6 @@ module.exports = require('./lib/React');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _lib = require("./lib");
-
-var _lib2 = _interopRequireDefault(_lib);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -19013,22 +19009,22 @@ new Promise(function (resolve) {
   }
 }).then(run);
 
-},{"./layout":159,"./lib":160,"react":157,"react-dom":2}],159:[function(require,module,exports){
-"use strict";
+},{"./layout":159,"react":157,"react-dom":2}],159:[function(require,module,exports){
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require('react');
 
@@ -19038,92 +19034,130 @@ var _moviecard = require("./moviecard");
 
 var _moviecard2 = _interopRequireDefault(_moviecard);
 
-var _lib = require("./lib");
-
-var _lib2 = _interopRequireDefault(_lib);
-
 var Layout = (function (_React$Component) {
   _inherits(Layout, _React$Component);
 
   function Layout(props, context) {
     _classCallCheck(this, Layout);
 
-    _get(Object.getPrototypeOf(Layout.prototype), "constructor", this).call(this, props, context);
+    _get(Object.getPrototypeOf(Layout.prototype), 'constructor', this).call(this, props, context);
     this.state = { movies: [], rank: [], view: [] };
   }
 
   _createClass(Layout, [{
-    key: "renderTopRank",
+    key: 'renderTopRank',
     value: function renderTopRank() {
       var rank = this.state.movies;
       this.setState({ view: rank.slice(0, 9) });
     }
   }, {
-    key: "componentDidMount",
+    key: 'renderSortBy',
+    value: function renderSortBy(term, direction) {
+      var movies = this.state.movies;
+      var sort_by = function sort_by(field, reverse, primer) {
+        var key = primer ? function (x) {
+          return primer(x[field]);
+        } : function (x) {
+          return x[field];
+        };
+
+        reverse = !reverse ? 1 : -1;
+
+        return function (a, b) {
+          return (a = key(a), b = key(b), reverse * ((a > b) - (b > a)));
+        };
+      };
+      var sort = movies.sort(sort_by(term, direction));
+      this.setState({ view: rank.slice(0, 9) });
+    }
+  }, {
+    key: 'renderWithActor',
+    value: function renderWithActor(actor) {
+      var movies = this.state.movies;
+      var hasActor = function hasActor(element, index, array) {
+        return element['Actors'].indexOf(actor) > -1 ? true : false;
+      };
+      this.setState({ view: movies.find(hasActor) });
+    }
+  }, {
+    key: 'componentDidMount',
     value: function componentDidMount() {
       $.get("https://interview.zocdoc.com/api/1/FEE/AllMovies?authToken=3b502b3f-b1ff-4128-bd99-626e74836d9c", (function (res) {
         this.setState({ movies: res, view: res.slice(0, 9) });
       }).bind(this));
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       var movies = this.state.view;
-      return _react2["default"].createElement(
-        "div",
-        { className: "ui items" },
-        movies.map(function (movie) {
-          return _react2["default"].createElement(_moviecard2["default"], { name: movie['Name'],
-            duration: movie["Duration"],
-            genres: movie["Genres"],
-            description: movie["Description"],
-            rank: movie["Rank"],
-            actors: movie["Actors"],
-            directors: movie["Director"]
-          });
-        })
+      return _react2['default'].createElement(
+        'div',
+        null,
+        _react2['default'].createElement(
+          'div',
+          { className: 'ui secondary  menu' },
+          _react2['default'].createElement(
+            'a',
+            { className: 'active item' },
+            'Top 10'
+          ),
+          _react2['default'].createElement(
+            'a',
+            { className: 'item' },
+            'By Director'
+          ),
+          _react2['default'].createElement(
+            'a',
+            { className: 'item' },
+            'By Raiting'
+          ),
+          _react2['default'].createElement(
+            'div',
+            { className: 'right menu' },
+            _react2['default'].createElement(
+              'div',
+              { className: 'item' },
+              _react2['default'].createElement(
+                'div',
+                { className: 'ui icon input' },
+                _react2['default'].createElement('input', { type: 'text', placeholder: 'Search Movies' }),
+                _react2['default'].createElement('i', { className: 'search link icon' })
+              )
+            ),
+            _react2['default'].createElement(
+              'a',
+              { className: 'ui item' },
+              'Reset'
+            )
+          )
+        ),
+        _react2['default'].createElement(
+          'div',
+          { className: 'ui items' },
+          movies.map(function (movie) {
+            return _react2['default'].createElement(_moviecard2['default'], { name: movie['Name'],
+              duration: movie["Duration"],
+              genres: movie["Genres"],
+              description: movie["Description"],
+              rank: movie["Rank"],
+              actors: movie["Actors"],
+              director: movie["Director"]
+            });
+          })
+        )
       );
     }
   }]);
 
   return Layout;
-})(_react2["default"].Component);
+})(_react2['default'].Component);
 
 Layout.contextTypes = {};
 
-exports["default"] = Layout;
-module.exports = exports["default"];
-
-},{"./lib":160,"./moviecard":161,"react":157}],160:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-
-function getJSON(url, sucess, error) {
-
-  var request = new XMLHttpRequest();
-  request.open('GET', url, true);
-
-  request.onreadystatechange = function () {
-    if (this.readyState === 4) {
-      if (this.status >= 200 && this.status < 400) {
-        sucess(JSON.parse(this.responseText));
-      } else {
-        error(this.responseText);
-      }
-    }
-  };
-
-  request.send();
-  //request = null;
-}
-
-exports['default'] = { get: getJSON };
+exports['default'] = Layout;
 module.exports = exports['default'];
 
-},{}],161:[function(require,module,exports){
+},{"./moviecard":160,"react":157}],160:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19164,7 +19198,15 @@ var MovieCard = (function (_React$Component) {
         _react2["default"].createElement(
           "div",
           { className: "image" },
-          _react2["default"].createElement("img", { src: "http://semantic-ui.com/images/wireframe/image.png" })
+          _react2["default"].createElement(
+            "div",
+            { className: "ui center aligned segment" },
+            _react2["default"].createElement(
+              "button",
+              { className: "ui primary button" },
+              " Buy Tickets "
+            )
+          )
         ),
         _react2["default"].createElement(
           "div",

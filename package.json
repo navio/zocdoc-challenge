@@ -4,7 +4,7 @@
   "description": "ZocDoc Take Home Challenge",
   "main": "src/app.js",
   "scripts": {
-    "server": "browser-sync start --server assets --files assets",
+    "start": "browser-sync start --server assets --files assets",
     "build": "browserify src/app.js -t babelify --outfile assets/bundle.js",
     "test": "text.js"
   },

@@ -12,7 +12,7 @@ class MovieCard extends React.Component {
 
         <div className="item">
           <div className="image">
-            <img src="http://semantic-ui.com/images/wireframe/image.png" />
+            <div className="ui center aligned segment"><button className="ui primary button"> Buy Tickets </button></div>
           </div>
           <div className="content">
             <a className="header"><h3 className="ui header">{this.props.name}</h3></a>

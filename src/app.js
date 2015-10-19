@@ -1,4 +1,3 @@
-import _ from "./lib"
 import React from 'react';
 import Layout from './layout';
 import reactdom from 'react-dom'

@@ -1,6 +1,5 @@
 import React , { PropTypes } from 'react';
 import MovieCard from "./moviecard";
-import L from "./lib";
 class Layout extends React.Component {
 
   constructor(props,context) {
@@ -47,6 +46,29 @@ class Layout extends React.Component {
   render() {
     let movies = this.state.view;
     return (
+      <div>
+      <div className="ui secondary  menu">
+          <a className="active item">
+            Top 10
+          </a>
+          <a className="item">
+            By Director
+          </a>
+          <a className="item">
+            By Raiting
+          </a>
+          <div className="right menu">
+            <div className="item">
+              <div className="ui icon input">
+                <input type="text" placeholder="Search Movies" />
+                <i className="search link icon"></i>
+              </div>
+            </div>
+            <a className="ui item">
+              Reset
+            </a>
+          </div>
+        </div>
         <div className="ui items">
           {
             movies.map(function(movie){
@@ -56,12 +78,13 @@ class Layout extends React.Component {
                                 description={movie["Description"]}
                                 rank={movie["Rank"]}
                                 actors={movie["Actors"]}
-                                directors={movie["Director"]}
+                                director={movie["Director"]}
                                 />
             })
           }
 
         </div>
+      </div>
           )
   }
 
