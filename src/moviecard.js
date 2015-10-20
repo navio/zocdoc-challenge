@@ -4,15 +4,24 @@ class MovieCard extends React.Component {
 
   constructor(props,context) {
       super(props,context);
+
   }
   render() {
       var genres = this.props.genres || [];
       var actors = this.props.actors || [];
+      var action = this.props.action.bind(this,this.props.movie)
     return (
 
         <div className="item">
           <div className="image">
-            <div className="ui center aligned segment"><button className="ui primary button"> Buy Tickets </button></div>
+            <div className="ui center aligned segment">
+
+
+              <button className="ui primary button"> Buy Tickets </button>
+              {
+                this.props.added ? null : <button className="ui secondary button" onClick={action} > Compare </button>
+              }
+              </div>
           </div>
           <div className="content">
             <a className="header"><h3 className="ui header">{this.props.name}</h3></a>
@@ -29,9 +38,8 @@ class MovieCard extends React.Component {
               </div>
 
             </div>
-            <div className="description">
-              <p>{this.props.description}</p>
-            </div>
+            { this.props.added ? null :
+            <div className="description"> <p>{this.props.description}</p> </div> }
             <div className="extra">
               <h4 className="ui header">Director</h4>
               <div className="ui row">
@@ -61,6 +69,8 @@ MovieCard.propTypes = {
   duration: PropTypes.string,
   director: PropTypes.string,
   actors: PropTypes.array,
+  movie: PropTypes.object,
+  action: PropTypes.func
 }
 
 export default MovieCard;
